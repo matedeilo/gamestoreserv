@@ -32,4 +32,20 @@ public class GameDAO {
         return gameWsList;
     }
 
+    public GameWS findGameById(String gameId){
+        Game gameModel = gameRepository.findOne(Integer.parseInt(gameId));
+
+        if (gameModel == null) {
+            return null;
+        }
+
+        GameWS gameWS = new GameWS();
+        gameWS.setId(gameModel.getId());
+        gameWS.setName(gameModel.getName());
+        gameWS.setDefaultImageUrl(gameModel.getDefaultImageUrl());
+        gameWS.setLicensorName(gameModel.getLicensorName());
+        gameWS.setDescription(gameModel.getDescription());
+
+        return gameWS;
+    }
 }

@@ -1,12 +1,15 @@
 package com.store;
 
 import com.store.dao.GameDAO;
+import com.store.ws.rest.config.JerseyConfig;
 import com.store.ws.service.GamesServiceImpl;
 import org.apache.cxf.Bus;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -38,7 +41,17 @@ public class Application extends SpringBootServletInitializer {
     // Replaces the need for web.xml
     @Bean
     public ServletRegistrationBean servletRegistrationBean(ApplicationContext context) {
-        return new ServletRegistrationBean(new CXFServlet(), "/services/*");
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new CXFServlet(), "/services/*");
+        servletRegistrationBean.setLoadOnStartup(1);
+        return servletRegistrationBean;
+    }
+
+    @Bean
+    public ServletRegistrationBean jerseyServlet() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/restservices/*");
+        registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyConfig.class.getName());
+        registration.setLoadOnStartup(1);
+        return registration;
     }
 
     // Replaces cxf-servlet.xml

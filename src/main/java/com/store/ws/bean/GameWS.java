@@ -9,6 +9,8 @@ public class GameWS {
 
     private String name;
 
+    private String description;
+
     private String licensorName;
 
     private String defaultImageUrl;
@@ -43,5 +45,13 @@ public class GameWS {
 
     public void setDefaultImageUrl(String defaultImageUrl) {
         this.defaultImageUrl = defaultImageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
